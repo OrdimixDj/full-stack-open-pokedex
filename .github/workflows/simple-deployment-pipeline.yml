@@ -1,4 +1,4 @@
-name: Deployment pipeline
+name: Simple deployment pipeline
 
 on:
   push:
