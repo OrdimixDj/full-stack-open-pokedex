@@ -26,7 +26,8 @@ jobs:
           DISCORD_EMBEDS: >
             [
               {
-                "description": "commit ${{ github.event.head_commit.url }} by ${{ github.actor }} broke the build :(","color": 16711680,
+                "description": "commit ${{ github.event.head_commit.url }} by ${{ github.actor }} broke the build :(",
+                "color": 16711680,
               }
             ]
           DISCORD_USERNAME: GitHub
