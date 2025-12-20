@@ -1,5 +1,8 @@
 name: Deployment pipeline
 
+env:
+  CONDITION: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
+
 on:
   push:
     branches:
@@ -10,6 +13,8 @@ on:
 
 jobs:
   simple_deployment_pipeline:
+    outputs:
+      tag_release_can_run: ${{ steps.final.outcome == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -24,15 +29,18 @@ jobs:
         run: npm run build
       - name: test
         run: npm run test
+      - if: ${{ env.CONDITION == 'true' }}
+        id: final
+        run: echo
   tag_release:
     needs: [simple_deployment_pipeline]
+    if: ${{ needs.simple_deployment_pipeline.outputs.tag_release_can_run == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: '0'
       - name: Bump version and push tag
-        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
         uses: anothrNick/github-tag-action@1.75.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
