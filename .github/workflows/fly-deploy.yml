@@ -25,13 +25,13 @@ jobs:
       - run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-      - name: Discord Webhook Notify
+      - name: Test Success
+        uses: rjstone/discord-webhook-notify@v2
         if: ${{ success() }}
-        uses: rjstone/discord-webhook-notify@v2.2.1
         with:
-          severity: info
-          details: 'Deployment succeeded - this is a test !'
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          severity: info
+          details: All tests passed!
       - name: Discord Webhook Notify
         if: ${{ failure() }}
         uses: rjstone/discord-webhook-notify@v2.2.1
