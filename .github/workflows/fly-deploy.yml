@@ -3,9 +3,13 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
 jobs:
   deploy:
     name: Deploy app
+    if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
     concurrency: deploy-group
     steps:
