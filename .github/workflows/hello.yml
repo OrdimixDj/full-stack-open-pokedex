@@ -19,19 +19,3 @@ jobs:
       - name: Directory content
         run: |
           ls -l
-      - name: Discord notification
-        if: ${{ success() }}
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          DISCORD_EMBEDS: >
-            [
-              {
-                "description": "commit ${{ github.event.head_commit.url }} by ${{ github.actor }} broke the build :(",
-                "color": 16711680
-              }
-            ]
-          DISCORD_USERNAME: GitHub
-          DISCORD_AVATAR: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
-        uses: Ilshidur/action-discord@master
-        with:
-          args: "A new version of Pokedex deployed"

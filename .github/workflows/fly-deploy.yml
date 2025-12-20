@@ -33,7 +33,7 @@ jobs:
             [
               {
                 "description": "to https://full-stack-open-pokedex-rough-shape-6124.fly.dev/ by ${{ github.actor }}",
-                "color": 65280,
+                "color": 65280
               }
             ]
           DISCORD_USERNAME: GitHub
@@ -41,10 +41,19 @@ jobs:
         uses: Ilshidur/action-discord@master
         with:
           args: "A new version of Pokedex deployed"
-      - name: Discord Webhook Notify
+      - name: Discord notification
         if: ${{ failure() }}
-        uses: rjstone/discord-webhook-notify@v2.2.1
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_EMBEDS: >
+            [
+              {
+                "description": "commit ${{ github.event.head_commit.url }} by ${{ github.actor }} broke the build :(",
+                "color": 16711680
+              }
+            ]
+          DISCORD_USERNAME: GitHub
+          DISCORD_AVATAR: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
+        uses: Ilshidur/action-discord@master
         with:
-          severity: error
-          details: 'Deployment failed - this is a test !'
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          args: "Build failed"
