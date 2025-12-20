@@ -1,4 +1,5 @@
-name: Fly Deploy
+name: Deployment pipeline
+
 on:
   push:
     branches:
@@ -6,12 +7,29 @@ on:
   pull_request:
     branches: [main]
     types: [opened, synchronize]
+
 jobs:
-  deploy:
-    name: Deploy app
+  simple_deployment_pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '16'
+      - name: Install dependencies 
+        run: npm install
+      - name: build
+        run: npm run build
+      - name: e2e tests
+        uses: cypress-io/github-action@v5
+        with:
+          command: npm run test:e2e
+          start: npm run start-prod
+          wait-on: http://localhost:5001
+  tag_release:
+    needs: [simple_deployment_pipeline]
     if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
-    concurrency: deploy-group
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
