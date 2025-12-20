@@ -24,10 +24,13 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           DISCORD_EMBEDS: >
-            [{
-              "description": "to https://full-stack-open-pokedex-rough-shape-6124.fly.dev/ by ${{ github.actor }}",
-              "color": 65280,
-            }]
+            [
+              {
+                "description": "to https://full-stack-open-pokedex-rough-shape-6124.fly.dev/ by ${{ github.actor }}",
+                "color": 65280,
+                "footer": { "text": "Severity: Informational" }
+              }
+            ]
           DISCORD_USERNAME: GitHub
           DISCORD_AVATAR: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
         uses: Ilshidur/action-discord@master
