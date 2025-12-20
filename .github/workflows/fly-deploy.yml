@@ -10,6 +10,7 @@ jobs:
     concurrency: deploy-group
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - name: build
         run: npm run build
