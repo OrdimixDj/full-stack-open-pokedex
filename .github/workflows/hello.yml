@@ -23,15 +23,10 @@ jobs:
         if: ${{ success() }}
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_EMBED_DESCRIPTION: "to https://full-stack-open-pokedex-rough-shape-6124.fly.dev/ by ${{ github.actor }}"
+          DISCORD_EMBED_COLOR: 65280
+          DISCORD_USERNAME: GitHub
+          DISCORD_AVATAR: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
         uses: Ilshidur/action-discord@master
         with:
-          args: >
-            {
-              "embeds": [{
-                "title": "A new version of Pokedex deployed"
-                "description": "to https://full-stack-open-pokedex-rough-shape-6124.fly.dev/ by ${{ github.actor }}",
-                "color": "0x00ff00"
-                "username": "GitHub"
-                "avatar_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-              }]
-            }
+          args: "A new version of Pokedex deployed"
