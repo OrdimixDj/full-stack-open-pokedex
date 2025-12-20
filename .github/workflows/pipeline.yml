@@ -32,6 +32,9 @@ jobs:
       - if: ${{ env.CONDITION == 'true' }}
         id: final
         run: echo
+      - name: Discord Webhook Notify
+        if: ${{ failure() }}
+        uses: rjstone/discord-webhook-notify@v2.2.1
   tag_release:
     needs: [simple_deployment_pipeline]
     if: ${{ needs.simple_deployment_pipeline.outputs.tag_release_can_run == 'true' }}
@@ -45,3 +48,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
+      - name: Discord Webhook Notify
+        if: ${{ success() }}
+        uses: rjstone/discord-webhook-notify@v2.2.1
+        with:
+          severity: info
+          details: 'Deployment succeeded - this is a test !'
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
