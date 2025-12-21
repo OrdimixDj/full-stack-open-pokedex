@@ -8,6 +8,8 @@ on:
   pull_request:
     branches: [main]
     types: [opened, synchronize]
+  schedule:
+     - cron: "*/2 * * * *"
 
 jobs:
   health_check:
