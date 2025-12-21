@@ -9,7 +9,7 @@ on:
     branches: [main]
     types: [opened, synchronize]
   schedule:
-     - cron: "31 2,3 * * *"
+     - cron: "40 2,3 * * *"
 
 jobs:
   health_check:
