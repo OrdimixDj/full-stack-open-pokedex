@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - main
+      - test-branch
   pull_request:
     branches: [main]
     types: [opened, synchronize]
