@@ -11,9 +11,16 @@ app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`)
 })
 
+let isHealthy = true
+
+// Route normale
 app.get('/health', (req, res) => {
-  // eslint-disable-next-line no-constant-condition
-  //if (true) throw ('error...  ')
-  //res.send('ok')
-  res.status(500).send('error')
+  if (!isHealthy) return res.status(500).send('down')
+  res.send('ok')
+})
+
+// Route "secrète" pour simuler la panne manuellement
+app.post('/toggle-health', (req, res) => {
+  isHealthy = !isHealthy
+  res.send(`Server health is now: ${isHealthy}`)
 })
